@@ -12,6 +12,7 @@ class AlienInvasion:
 
     def __init__(self):
         """Initialize game, create game resources"""
+
         pygame.init()
         self.settings = Settings()
 
