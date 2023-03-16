@@ -16,7 +16,9 @@ class AlienInvasion:
         pygame.init()
         self.settings = Settings()
 
-        self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
+        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        self.settings.screen_width = self.screen.get_rect().width
+        self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Alien Invasion")
         self.ship = Ship(self)
 
@@ -38,20 +40,32 @@ class AlienInvasion:
                 sys.exit()
 
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RIGHT:
-                    """move the ship to the right"""
-                    self.ship.moving_right = True
-
-                elif event.key == pygame.K_LEFT:
-                    """move the ship to the left"""
-                    self.ship.moving_left = True
+                self._check_key_down_events(event)
 
             elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_RIGHT:
-                    self.ship.moving_right = False
+                self._check_keyup_events(event)
 
-                elif event.key == pygame.K_LEFT:
-                    self.ship.moving_left = False
+    def _check_key_down_events(self, event):
+        """react when the key is pressed"""
+        if event.key == pygame.K_RIGHT:
+            """move the ship to the right"""
+            self.ship.moving_right = True
+
+        elif event.key == pygame.K_LEFT:
+            """move the ship to the left"""
+            self.ship.moving_left = True
+
+        elif event.key == pygame.K_q:
+            sys.exit()
+
+    def _check_keyup_events(self, event):
+        """react when the key is not pressed"""
+
+        if event.key == pygame.K_RIGHT:
+            self.ship.moving_right = False
+
+        elif event.key == pygame.K_LEFT:
+            self.ship.moving_left = False
 
     def _update_screen(self):
         """Update image on screen and switch to a new screen"""
