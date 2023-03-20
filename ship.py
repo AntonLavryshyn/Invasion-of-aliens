@@ -13,7 +13,7 @@ class Ship:
 
         """Download ship image and get it in "react()" """
 
-        self.image = pygame.image.load('images/space_ship_small.bmp')
+        self.image = pygame.image.load('images/space_ship.bmp')
         self.rect = self.image.get_rect()
 
         """Create a new each ship at the bottom of the screen, in the center"""
