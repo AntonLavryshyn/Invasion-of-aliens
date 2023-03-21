@@ -39,6 +39,7 @@ class AlienInvasion:
             self.ship.update()
             self.bullets.update()
             self._update_bullets()
+            self._update_aliens()
             self._update_screen()
             """Monitor mouse and keyboard events"""
 
@@ -97,6 +98,19 @@ class AlienInvasion:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
 
+        # Check whether one of the bullets did not hit the alien
+        # If you hit, delete bullet and the alien
+        collisions = pygame.sprite.groupcollide(
+            self.bullets, self.aliens, True, True)
+
+    def _update_aliens(self):
+        """
+        Check if the fleet is at the edge of the screen
+         then update the positions of all aliens
+        """
+        self._check_fleet_edges()
+        self.aliens.update()
+
     def _create_fleet(self):
         """Create aliens fleet"""
         # Creating aliens and determining the number of aliens in a row
@@ -125,6 +139,23 @@ class AlienInvasion:
         alien.rect.x = alien.x
         alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
         self.aliens.add(alien)
+
+    def _check_fleet_edges(self):
+        """
+        Reacts according to whether one of the aliens
+        has reached the edge of the screen
+        """
+        for alien in self.aliens.sprites():
+            if alien.check_edges():
+                self._change_fleet_direction()
+                break
+
+    def _change_fleet_direction(self):
+        """Descent of the entire fleet and change of direction"""
+        for alien in self.aliens.sprites():
+            alien.rect.y += self.settings.fleet_drop_speed
+
+        self.settings.fleet_direction *= -1
 
     def _update_screen(self):
         """Update image on screen and switch to a new screen"""
