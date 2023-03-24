@@ -13,7 +13,7 @@ class Ship:
 
         """Download ship image and get it in "react()" """
 
-        self.image = pygame.image.load('images/space_ship.bmp')
+        self.image = pygame.image.load('images/space_ship2.bmp')
         self.rect = self.image.get_rect()
 
         """Create a new each ship at the bottom of the screen, in the center"""
@@ -41,5 +41,10 @@ class Ship:
     def draw_a_ship(self):
         """draw the ship in its current location"""
         self.screen.blit(self.image, self.rect)
+
+    def center_ship(self):
+        """Center ship on screen"""
+        self.rect.midbottom = self.screen_rect.midbottom
+        self.x = float(self.rect.x)
 
 
